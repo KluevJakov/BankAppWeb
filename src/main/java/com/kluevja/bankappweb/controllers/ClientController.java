@@ -4,14 +4,14 @@ import com.kluevja.bankappweb.models.Client;
 import com.kluevja.bankappweb.services.ClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/client")
@@ -21,25 +21,27 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-
     @PostMapping("/create")
     public ModelAndView create(@ModelAttribute Client client, RedirectAttributes model) {
         log.info("Попытка создать клиента " + client);
-        if (clientService.createClient(client)) {
+        try {
+            clientService.createClient(client);
             model.addFlashAttribute("msg", "Пользователь успешно создан");
-        } else {
-            model.addFlashAttribute("msg", "Не удалось создать пользователя");
+        } catch (Exception e) {
+            model.addFlashAttribute("msg", e.getMessage());
+            log.warn("Неудачная попытка создать клиента : " + e.getMessage());
         }
         return new ModelAndView("redirect:/client");
     }
 
     @GetMapping("/get")
     public ModelAndView get(@RequestParam Long id, RedirectAttributes model) {
-        Optional<Client> client = clientService.getClient(id);
-        if (client.isPresent()) {
-            model.addFlashAttribute("client", client.get());
-        } else {
-            model.addFlashAttribute("msg", "Не удалось найти пользователя");
+        try {
+            Client client = clientService.getClient(id);
+            model.addFlashAttribute("client", client);
+        } catch (Exception e) {
+            model.addFlashAttribute("msg", e.getMessage());
+            log.warn("Неудачная попытка найти клиента : " + e.getMessage());
         }
         return new ModelAndView("redirect:/client");
     }
@@ -51,7 +53,7 @@ public class ClientController {
             model.addFlashAttribute("msg", "Пользователь успешно обновлен");
         } catch (Exception e) {
             model.addFlashAttribute("msg", "Не удалось найти пользователя");
-            log.error("Пользователя с таким ID не найдено : " + client.getId());
+            log.error("Ошибка при изменении клиента : " + e.getMessage());
         }
         return new ModelAndView("redirect:/client");
     }

@@ -43,7 +43,6 @@ div#toMain a:hover {
 
 main {
     display: flex;
-    height: 500px;
     width: 100%;
     align-items: center;
 }
@@ -100,4 +99,20 @@ input[type="submit"] {
     border: 3px solid #b5b5b5;
     margin-bottom: 10px;
     border-radius: 10px;
+}
+
+footer {
+    width: 100%;
+    height: 70px;
+    background-color: #4a4375;
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+div#contacts {
+    color: white;
+    font-size: 14pt;
+    margin-right: 20px;
 }

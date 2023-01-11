@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>BankAppWeb</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <div id="logo">НашБанк</div>
-        <div id="toMain"><a href="/">На главную</a></div>
+        <div sec:authorize="hasAuthority('OPER')">Место оператора 1</div>
+        <div sec:authorize="hasAuthority('USER')">Место пользователя 1</div>
+        <div id="toMain"><a href="/">На главную</a> <a href="/logout">Выход</a></div>
     </header>
-
     <main>
         <div class="fragmentForInputs">
             <form method="post" action="/client/create" th:object="${client}">
-                <input type="email" name="email" placeholder="Адрес электронной почты">
-                <input type="text" name="name" placeholder="Имя">
-                <input type="text" name="surname" placeholder="Фамилия">
-                <input type="text" name="patronymic" placeholder="Отчество">
-                <input type="password" name="password" placeholder="Пароль">
+                <input type="email" name="email" placeholder="Адрес электронной почты" required>
+                <input type="text" name="name" placeholder="Имя" required>
+                <input type="text" name="surname" placeholder="Фамилия" required>
+                <input type="text" name="patronymic" placeholder="Отчество" required>
+                <input type="password" name="password" placeholder="Пароль" required>
                 <input type="submit" value="Создать клиента">
             </form>
         </div>
@@ -30,12 +33,11 @@
         </div>
         <div class="fragmentForInputs">
             <form method="post" action="/client/update" th:object="${client}">
-                <input type="number" name="id" placeholder="Id клиента">
-                <input type="text" name="name" placeholder="Имя">
-                <input type="text" name="surname" placeholder="Фамилия">
-                <input type="text" name="patronymic" placeholder="Отчество">
-                <input type="password" name="password" placeholder="Пароль">
-                <input type="submit" value="Изменить клиента">
+                <input type="number" name="id" placeholder="Id клиента" id="idClientForUpdating" required>
+                <input type="text" name="name" placeholder="Имя" id="clientForUpdatingName" disabled>
+                <input type="text" name="surname" placeholder="Фамилия" id="clientForUpdatingSurname" disabled>
+                <input type="text" name="patronymic" placeholder="Отчество" id="clientForUpdatingPatr" disabled>
+                <input type="submit" value="Изменить клиента" id="clientForUpdatingButton" disabled>
             </form>
         </div>
         <div class="fragmentForInputs">
@@ -44,12 +46,16 @@
                 <input type="submit" value="Удалить клиента">
             </form>
         </div>
+
+    </main>
+    <div style="text-align: center;margin-block: 40px;">
         <span th:text="${msg}"></span>
         <span th:text="${client}"></span>
-    </main>
-
+    </div>
     <footer>
         <div id="contacts">Наши контакты: 89231143435, ул. Политехническая 77</div>
     </footer>
+
+    <script th:src="@{/js/script.js}"></script>
 </body>
 </html>
