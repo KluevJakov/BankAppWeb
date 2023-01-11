@@ -37,6 +37,7 @@ public class SecurityConfiguration {
         http.cors().and().csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .antMatchers("/", "/login/**", "/css/**", "/js/**").permitAll()
+                        .antMatchers("/client", "/account").hasAuthority("OPER")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
@@ -44,7 +45,8 @@ public class SecurityConfiguration {
                         .passwordParameter("password")
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll);
+                .logout(LogoutConfigurer::permitAll)
+                .exceptionHandling().accessDeniedPage("/accessDenied");
 
         return http.build();
     }

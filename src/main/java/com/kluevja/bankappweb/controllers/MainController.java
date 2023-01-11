@@ -22,4 +22,14 @@ public class MainController {
         return "account/index";
     }
 
+    @GetMapping("/accessDenied")
+    public String accessDenied() {
+        return "accessDenied";
+    }
+
+    @GetMapping("/error")
+    public String error() {
+        return "error";
+    }
+
 }

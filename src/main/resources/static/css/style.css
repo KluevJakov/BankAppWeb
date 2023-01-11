@@ -23,6 +23,7 @@ div#logo {
     color: white;
     font-size: 20pt;
     margin-left: 20px;
+    cursor: pointer;
 }
 
 div#toMain {
@@ -115,4 +116,23 @@ div#contacts {
     color: white;
     font-size: 14pt;
     margin-right: 20px;
+}
+
+.userPlace {
+    color: white;
+    font-size: 14pt;
+    cursor: pointer;
+}
+
+#content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userOptions {
+    background: #e6e1ff;
+    padding: 40px;
+    margin-top: 80px;
 }

@@ -10,8 +10,8 @@
 <body>
     <header>
         <div id="logo">НашБанк</div>
-        <div sec:authorize="hasAuthority('OPER')">Место оператора 1</div>
-        <div sec:authorize="hasAuthority('USER')">Место пользователя 1</div>
+        <div class="userPlace" sec:authorize="hasAuthority('OPER')">Место оператора</div>
+        <div class="userPlace" sec:authorize="hasAuthority('USER')">Место пользователя</div>
         <div id="toMain"><a href="/">На главную</a> <a href="/logout">Выход</a></div>
     </header>
     <main>
