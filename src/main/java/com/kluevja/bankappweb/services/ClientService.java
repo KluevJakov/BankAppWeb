@@ -87,6 +87,10 @@ public class ClientService {
         return true;
     }
 
+    public Client getClientByEmail(String email) {
+        return clientRepository.findByEmail(email);
+    }
+
     public List<Client> getAllClients () {
         return clientRepository.findAll();
     }

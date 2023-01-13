@@ -31,6 +31,43 @@
                     <li><a href="#">Просмотр транзакций</a></li>
                 </ul>
             </div>
+            <div id="userOptionsBlocks" sec:authorize="hasAuthority('USER')">
+                <div class="innerOptionsBlock">
+                    <h2>ПРОФИЛЬ</h2>
+
+                    <div id="profileSurname">Фамилия: </div>
+                    <div id="profileName">Имя: </div>
+                    <div id="profilePatromynic">Отчество: </div>
+                    <div id="profileEmail">Email: </div>
+                </div>
+
+                <div class="innerOptionsBlock">
+                    <h2>СЧЕТА</h2>
+
+                    <div id="accountsList">
+                        <div class="accountItem"></div>
+                    </div>
+                </div>
+
+                <div class="innerOptionsBlock">
+                    <h2>ИСТОРИЯ</h2>
+
+                    <div id="transactionsList">
+                        <div class="transactionItem"></div>
+                    </div>
+                </div>
+
+                <div class="innerOptionsBlock">
+                    <h2>ПЕРЕВОД</h2>
+
+                    <input id="transferDebtorAccountId" type="number" placeholder="Id счета для списания">
+                    <input id="transferCreditorAccountId" type="number" placeholder="Id счета для начисления">
+                    <input id="transferAmount" type="number" placeholder="Сумма перевода">
+                    <button id="transferButton">Перечислить</button>
+                </div>
+            </div>
         </div>
+
+        <script sec:authorize="hasAuthority('USER')" th:src="@{/js/userPage.js}"></script>
     </body>
 </html>

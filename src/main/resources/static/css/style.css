@@ -2,6 +2,7 @@ html {
     width: 100%;
     height: 100%;
     font-family: 'Manrope', sans-serif;
+    min-width: 500px;
 }
 
 body {
@@ -19,7 +20,7 @@ header {
     justify-content: space-between;
 }
 
-div#logo {
+#logo {
     color: white;
     font-size: 20pt;
     margin-left: 20px;
@@ -135,4 +136,34 @@ div#contacts {
     background: #e6e1ff;
     padding: 40px;
     margin-top: 80px;
+}
+
+#userOptionsBlocks {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-direction: row;
+}
+
+.innerOptionsBlock {
+  border: 2px black solid;
+  width: 300px;
+  height: 450px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media (max-width: 1250px) {
+
+    #userOptionsBlocks {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .innerOptionsBlock {
+      width: 80%;
+      margin-bottom: 20px;
+    }
+
 }
