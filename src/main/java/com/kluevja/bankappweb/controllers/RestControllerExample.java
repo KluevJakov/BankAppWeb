@@ -1,18 +1,13 @@
 package com.kluevja.bankappweb.controllers;
 
-import com.kluevja.bankappweb.models.Account;
-import com.kluevja.bankappweb.models.Client;
+import com.kluevja.bankappweb.models.*;
 import com.kluevja.bankappweb.services.AccountService;
 import com.kluevja.bankappweb.services.ClientService;
+import com.kluevja.bankappweb.services.TransferService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +19,8 @@ public class RestControllerExample {
     private ClientService clientService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private TransferService transferService;
 
     @GetMapping("/home")
     public List<Client> home() {
@@ -46,12 +43,26 @@ public class RestControllerExample {
     public List<Account> getCurrentUserAccounts(Authentication authentication) {
         log.info("Получить список счетов текущего пользователя");
         Client currentClient = clientService.getClientByEmail(authentication.getPrincipal().toString());
+        log.info("Счета текущего клиента: " + accountService.getAccountList(currentClient.getId()));
         return accountService.getAccountList(currentClient.getId());
     }
 
+    @GetMapping("/getCurrentUserTransactions")
+    public List<Transaction> getCurrentUserTransactions(Authentication authentication) {
+        log.info("Получить список переводов текущего пользователя");
+        Client currentClient = clientService.getClientByEmail(authentication.getPrincipal().toString());
+        return transferService.getCurrentUserTransactions(currentClient);
+    }
+
     @PostMapping("/executeTransfer")
-    public void executeTransfer () { //возвращать bool
-        return;
+    public MessageDTO executeTransfer (Authentication authentication, @RequestBody TransferDTO transferDTO) {
+        try {
+            Client currentClient = clientService.getClientByEmail(authentication.getPrincipal().toString());
+            transferService.execute(transferDTO, currentClient);
+            return new MessageDTO("Успешно!", true);
+        } catch (Exception e) {
+            return new MessageDTO("Ошибка! " + e.getMessage(), false);
+        }
     }
 
 }

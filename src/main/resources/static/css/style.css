@@ -152,6 +152,41 @@ div#contacts {
   display: flex;
   align-items: center;
   flex-direction: column;
+  overflow: auto;
+}
+
+#accountsList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.accountItem {
+    border: 1px #999 solid;
+    height: 70px;
+    width: 95%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#transactionsList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.transactionItem {
+    border: 1px #999 solid;
+    height: 70px;
+    width: 95%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 @media (max-width: 1250px) {
