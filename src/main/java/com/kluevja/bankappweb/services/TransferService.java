@@ -4,6 +4,7 @@ import com.kluevja.bankappweb.models.Account;
 import com.kluevja.bankappweb.models.Client;
 import com.kluevja.bankappweb.models.Transaction;
 import com.kluevja.bankappweb.models.TransferDTO;
+import com.kluevja.bankappweb.models.TransactionType;
 import com.kluevja.bankappweb.repositories.AccountRepository;
 import com.kluevja.bankappweb.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,9 +75,21 @@ public class TransferService {
 
         List<Account> currentUserAccounts = currentClient.getAccounts();
 
-        return transactionRepository.findAll().stream()
+        List<Transaction> resultListTransactions = transactionRepository.findAll().stream()
                 .filter(e -> currentUserAccounts.contains(e.getGetter()) || currentUserAccounts.contains(e.getSender()))
+                .peek(e -> {
+                    if (currentClient.getAccounts().contains(e.getSender()) &&
+                            currentClient.getAccounts().contains(e.getGetter())) {
+                        e.setTransactionType(TransactionType.INTERNAL);
+                    } else if (currentClient.getAccounts().contains(e.getSender())) {
+                        e.setTransactionType(TransactionType.OUTCOME);
+                    } else {
+                        e.setTransactionType(TransactionType.INCOME);
+                    }
+                })
                 .sorted(Comparator.comparing(Transaction::getDateOfPayment, Comparator.reverseOrder()))
                 .collect(Collectors.toList());
+
+        return resultListTransactions;
     }
 }

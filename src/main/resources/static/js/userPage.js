@@ -2,6 +2,13 @@ getCurrentUser();
 getCurrentUserAccounts();
 getCurrentUserTransactions();
 
+/*
+setInterval(function() {
+    getCurrentUserAccounts();
+    getCurrentUserTransactions();
+}, 5000);
+*/
+
 transferButton.addEventListener('click', transfer);
 
 function transfer () {
@@ -74,11 +81,8 @@ function getCurrentUserAccounts() {
         let accountItemBalance = document.createElement("div");
 
         accountItemId.innerHTML = currentUserAccounts[i].id;
-        accountItemId.className = "accountItemId";
         accountItemName.innerHTML = currentUserAccounts[i].name;
-        accountItemName.className = "accountItemName";
         accountItemBalance.innerHTML = currentUserAccounts[i].balance;
-        accountItemBalance.className = "accountItemBalance";
 
         accountItem.className = "accountItem";
         accountItem.appendChild(accountItemId);
@@ -98,22 +102,55 @@ function getCurrentUserTransactions() {
 
     for (let i = 0; i < currentUserTransactions.length; i++) {
         let transactionItem = document.createElement("div");
-        let transactionItemId = document.createElement("div");
-        let transactionItemName = document.createElement("div");
-        let transactionItemBalance = document.createElement("div");
+        let transactionItemSender = document.createElement("div");
+        let transactionItemGetter = document.createElement("div");
+        let transactionItemAmount = document.createElement("div");
+        let transactionItemDate = document.createElement("div");
 
-        transactionItemId.innerHTML = currentUserTransactions[i].sender;
-        transactionItemId.className = "transactionItemId";
-        transactionItemName.innerHTML = currentUserTransactions[i].valueOfPayment;
-        transactionItemName.className = "transactionItemName";
-        transactionItemBalance.innerHTML = currentUserTransactions[i].dateOfPayment;
-        transactionItemBalance.className = "transactionItemBalance";
+        let transactionTypeStyle = "";
 
-        transactionItem.className = "transactionItem";
-        transactionItem.appendChild(transactionItemId);
-        transactionItem.appendChild(transactionItemName);
-        transactionItem.appendChild(transactionItemBalance);
+        if (currentUserTransactions[i].transactionType == 'INTERNAL') {
+            transactionTypeStyle = "trInternal";
+        } else if (currentUserTransactions[i].transactionType == 'INCOME') {
+            transactionTypeStyle = "trIncome";
+        } else {
+            transactionTypeStyle = "trOutcome";
+        }
+
+        transactionItemSender.innerHTML = currentUserTransactions[i].sender.name;
+        transactionItemSender.classList.add("trItem1");
+        transactionItemGetter.innerHTML = currentUserTransactions[i].getter.name;
+        transactionItemGetter.classList.add("trItem2");
+        transactionItemAmount.innerHTML = currentUserTransactions[i].valueOfPayment + " ₽";
+        transactionItemAmount.classList.add("trItem3");
+        transactionItemDate.innerHTML = dateFormatting(currentUserTransactions[i].dateOfPayment);
+        transactionItemDate.classList.add("trItem4");
+
+        transactionItem.classList.add("transactionItem", transactionTypeStyle);
+        transactionItem.appendChild(transactionItemSender);
+        transactionItem.appendChild(transactionItemGetter);
+        transactionItem.appendChild(transactionItemAmount);
+        transactionItem.appendChild(transactionItemDate);
 
         transactionsList.appendChild(transactionItem);
     }
 }
+
+function dateFormatting(dateString) {
+    let ms = Date.parse(dateString);
+    let date = new Date(ms);
+
+    let yyyy = date.getFullYear();
+    let mm = date.getMonth() + 1;
+    let dd = date.getDate();
+    let hh = date.getHours();
+    let nn = date.getMinutes();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+    if (nn < 10) nn = '0' + nn;
+    if (hh < 10) hh = '0' + hh;
+
+    return hh + ":" + nn + " " + dd + '.' + mm + '.' + yyyy;
+}
+

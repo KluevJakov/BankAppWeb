@@ -21,4 +21,5 @@ public class Transaction {
     private Account getter;
     private double valueOfPayment;
     private Date dateOfPayment;
+    private TransactionType transactionType;
 }

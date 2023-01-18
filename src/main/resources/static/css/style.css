@@ -187,6 +187,35 @@ div#contacts {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding: 3px;
+}
+
+.trItem1 {
+
+}
+
+.trItem2 {
+
+}
+
+.trItem3 {
+    white-space: nowrap;
+}
+
+.trItem4 {
+    text-align: end;
+}
+
+.trInternal {
+    background-color: #bee1ff;
+}
+
+.trIncome {
+    background-color: #cbffe2;
+}
+
+.trOutcome {
+    background-color: #ffe6cb;
 }
 
 @media (max-width: 1250px) {
