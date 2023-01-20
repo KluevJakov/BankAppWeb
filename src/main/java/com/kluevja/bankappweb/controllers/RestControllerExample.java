@@ -24,6 +24,7 @@ public class RestControllerExample {
 
     @GetMapping("/home")
     public List<Client> home() {
+        log.info("home");
         return clientService.getAllClients();
     }
 
